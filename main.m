@@ -2,9 +2,9 @@ close ALL;
 clear;
 
 % Samples
-N = 1000;
+N = 200;
 % Maximum lag to compute
-pmax = 100;  
+pmax = 200;  
 
 % Generate Noise signal
 variance = 0.5;
@@ -17,13 +17,14 @@ Rxx_unbiased = UnbiasedCrossCorr(wnoise, pmax);
 V = var(wnoise)
 
 %Trying to display 3 graphs in only 1 window
-g1 = tiledlayout(3,1);
-ax1 = nexttile;
-plot(ax1,x1,y1)
-ax2 = nexttile;
-stem(ax2,x2,y2)
-ax2 = nexttile;
-stem(ax2,x2,y2)
+% g1 = tiledlayout(3,1);
+% ax1 = nexttile;
+% plot(ax1,x1,y1)
+% ax2 = nexttile;
+% stem(ax2,x2,y2)
+% ax2 = nexttile;
+% stem(ax2,x2,y2)
+
 
 
 %Plotting Noise 
@@ -88,7 +89,8 @@ fe = 8000; %4kHz freq d'echantillonage
 fa = 100; %Hz 
 Dobs = 0.1; %s  
 %sa = sin(fa * t) 
-t = linspace(0, Dobs, Dobs * fe); 
+%t = linspace(0, Dobs, Dobs * fe); 
+t = linspace(0, N/fe, N); 
 sinSignal = sin(2 * pi * fa * t + 2 * pi* randn()); 
 
 %Plotting Sin signal
