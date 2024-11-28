@@ -2,7 +2,7 @@ close ALL;
 clear;
 
 % Samples
-N = 100;
+N = 1000;
 % Maximum lag to compute
 pmax = 100;  
 
@@ -16,21 +16,32 @@ Rxx_unbiased = UnbiasedCrossCorr(wnoise, pmax);
 
 V = var(wnoise)
 
+%Trying to display 3 graphs in only 1 window
+g1 = tiledlayout(3,1);
+ax1 = nexttile;
+plot(ax1,x1,y1)
+ax2 = nexttile;
+stem(ax2,x2,y2)
+ax2 = nexttile;
+stem(ax2,x2,y2)
+
 
 %Plotting Noise 
 stem(wnoise);
 title('White Noise');
+xlabel('Time');
+ylabel('Amplitude');
 figure;
 
 %Plotting Noise Biased AutoCorr
 lags = 0:pmax;
 stem(lags, Rxx_biased);
 hold on;
-%stem(lags, Rxx_unbiased);
+stem(lags, Rxx_unbiased);
 title('Autocorrelation of White Noise');
 xlabel('Lag');
 ylabel('Autocorrelation');
-legend('Biased', 'Unbiased_Noise?');
+legend('Biased', 'Unbiased');
 figure;
 
 
@@ -55,6 +66,8 @@ Rxx_unbiased = UnbiasedCrossCorr(x_ar, pmax);
 %Plotting AR1 
 stem(x_ar);
 title('AR1 Signal');
+xlabel('Time');
+ylabel('Amplitude');
 figure;
 
 
@@ -62,7 +75,7 @@ figure;
 lags = 0:pmax;
 stem(lags, Rxx_biased);
 hold on;
-%stem(lags, Rxx_unbiased);
+stem(lags, Rxx_unbiased);
 title('Autocorrelation of AR');
 xlabel('Lag');
 ylabel('Autocorrelation');
@@ -71,7 +84,7 @@ figure;
 
 
 %Test for an Sin signal
-fe = 10000; %4kHz freq d'echantillonage 
+fe = 8000; %4kHz freq d'echantillonage 
 fa = 100; %Hz 
 Dobs = 0.1; %s  
 %sa = sin(fa * t) 
@@ -81,17 +94,19 @@ sinSignal = sin(2 * pi * fa * t + 2 * pi* randn());
 %Plotting Sin signal
 stem(t,sinSignal);
 title('Sin Signal');
+xlabel('Time');
+ylabel('Amplitude');
 figure;
 
 % Estimate B and UnB Autocorrelation of Noise
 Rxx_biased = BiasedCrossCorr(sinSignal, pmax);
 Rxx_unbiased = UnbiasedCrossCorr(sinSignal, pmax);
 
-%Plotting AR1 Biased AutoCorr
+%Plotting Sin Signal Biased AutoCorr
 lags = 0:pmax;
 stem(lags, Rxx_biased);
 hold on;
-%stem(lags, Rxx_unbiased);
+stem(lags, Rxx_unbiased);
 title('Autocorrelation of Sin Signal');
 xlabel('Lag');
 ylabel('Autocorrelation');
