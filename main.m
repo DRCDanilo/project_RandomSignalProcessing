@@ -10,7 +10,7 @@ pmax = 200;
 variance = 0.5;
 wnoise = sqrt(variance) * randn(1,N);
 
-% Estimate B and UnB Autocorrelation of Noise
+%Estimate Biased and Unbiased Autocorrelation of Noise
 Rxx_biased = BiasedCrossCorr(wnoise, pmax);
 Rxx_unbiased = UnbiasedCrossCorr(wnoise, pmax);
 
@@ -27,14 +27,14 @@ V = var(wnoise)
 
 
 
-%Plotting Noise 
+%Plotting Noise signal
 stem(wnoise);
 title('White Noise');
 xlabel('Time');
 ylabel('Amplitude');
 figure;
 
-%Plotting Noise Biased AutoCorr
+%Plotting Noise Biased and Unbiased AutoCorrelation
 lags = 0:pmax;
 stem(lags, Rxx_biased);
 hold on;
@@ -47,21 +47,17 @@ figure;
 
 
 
-%Test for an AR1 process with a and sigma^2 parameters
+%Variable to generate AR1 process/signal
 a = 0.8;
 sigma2 = 2;
 
-%Generate AR(1) process
+%Generate AR1 process/signal
 input_noise = sqrt(sigma2) * randn(N,1);
 x_ar = filter([1], [1, -a], input_noise);
 
-% Estimate B and UnB Autocorrelation of AR1 filter
+%%Estimate Biased and Unbiased Autocorrelation of AR1
 Rxx_biased = BiasedCrossCorr(x_ar, pmax);
 Rxx_unbiased = UnbiasedCrossCorr(x_ar, pmax);
-%Plotting
-% stem(x_ar);
-% title('AR Signal');
-% figure;
 
 
 %Plotting AR1 
@@ -72,7 +68,7 @@ ylabel('Amplitude');
 figure;
 
 
-%Plotting AR1 Biased AutoCorr
+%Plotting AR1 Biased and Unbiased AutoCorrelation
 lags = 0:pmax;
 stem(lags, Rxx_biased);
 hold on;
@@ -84,7 +80,7 @@ legend('Biased', 'Unbiased');
 figure;
 
 
-%Test for an Sin signal
+%SIN signal
 fe = 8000; %4kHz freq d'echantillonage 
 fa = 100; %Hz 
 Dobs = 0.1; %s  
@@ -100,11 +96,11 @@ xlabel('Time');
 ylabel('Amplitude');
 figure;
 
-% Estimate B and UnB Autocorrelation of Noise
+%Estimate Biased and Unbiased Autocorrelation of Sin
 Rxx_biased = BiasedCrossCorr(sinSignal, pmax);
 Rxx_unbiased = UnbiasedCrossCorr(sinSignal, pmax);
 
-%Plotting Sin Signal Biased AutoCorr
+%Plotting Sin Biased and Unbiased AutoCorrelation
 lags = 0:pmax;
 stem(lags, Rxx_biased);
 hold on;
