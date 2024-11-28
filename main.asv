@@ -2,7 +2,7 @@ close ALL;
 clear;
 
 % Samples
-N = 100;
+N = 1000;
 % Maximum lag to compute
 pmax = 100;  
 
@@ -81,22 +81,10 @@ sinSignal = sin(2 * pi * fa * t + 2 * pi* randn());
 %Plotting Sin signal
 stem(t,sinSignal);
 title('Sin Signal');
-figure;
 
 % Estimate B and UnB Autocorrelation of Noise
 Rxx_biased = BiasedCrossCorr(sinSignal, pmax);
 Rxx_unbiased = UnbiasedCrossCorr(sinSignal, pmax);
-
-%Plotting AR1 Biased AutoCorr
-lags = 0:pmax;
-stem(lags, Rxx_biased);
-hold on;
-%stem(lags, Rxx_unbiased);
-title('Autocorrelation of Sin Signal');
-xlabel('Lag');
-ylabel('Autocorrelation');
-legend('Biased', 'Unbiased');
-
 
 
 
