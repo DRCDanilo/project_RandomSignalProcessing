@@ -109,6 +109,15 @@ title('Autocorrelation of Sin Signal');
 xlabel('Lag');
 ylabel('Autocorrelation');
 legend('Biased', 'Unbiased');
+figure;
+
+%Load files
+[fileName,pathFile] = uigetfile;
+fileIn = fullfile(pathFile,fileName);
+[audioIn,faudioIn] = audioread(fileIn);
+%x1 = size(audioIn);
+%x1 = zeros(2,size(audioIn));
+plot(audioIn)
 
 
 
