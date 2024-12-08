@@ -6,36 +6,36 @@ N = 200;
 % Maximum lag to compute
 pmax = 200;  
 
-% Generate Noise signal
+%Variance to generate Noise signal
 variance = 0.5;
-wnoise = sqrt(variance) * randn(1,N);
 
-%Estimate Biased and Unbiased Autocorrelation of Noise
+%Variable to generate AR1 process/signal
+a = 0.8;
+sigma2 = 2;
+
+%Generate White Noise signal
+wnoise = wNoise(variance,N);
+
+%Estimate Biased and Unbiased Autocorrelation of White Noise signal
 Rxx_biased = BiasedCrossCorr(wnoise, pmax);
 Rxx_unbiased = UnbiasedCrossCorr(wnoise, pmax);
 
 V = var(wnoise)
 
-%Trying to display 3 graphs in only 1 window
-% g1 = tiledlayout(3,1);
-% ax1 = nexttile;
-% plot(ax1,x1,y1)
-% ax2 = nexttile;
-% stem(ax2,x2,y2)
-% ax2 = nexttile;
-% stem(ax2,x2,y2)
-
 
 
 %Plotting Noise signal
+subplot(1,2,1);
 stem(wnoise);
 title('White Noise');
 xlabel('Time');
 ylabel('Amplitude');
-figure;
+%figure;
+
 
 %Plotting Noise Biased and Unbiased AutoCorrelation
 lags = 0:pmax;
+subplot(1,2,2);
 stem(lags, Rxx_biased);
 hold on;
 stem(lags, Rxx_unbiased);
@@ -46,14 +46,9 @@ legend('Biased', 'Unbiased');
 figure;
 
 
-
-%Variable to generate AR1 process/signal
-a = 0.8;
-sigma2 = 2;
-
 %Generate AR1 process/signal
-input_noise = sqrt(sigma2) * randn(N,1);
-x_ar = filter([1], [1, -a], input_noise);
+x_ar = arProcess(a,sigma2,N);
+
 
 %%Estimate Biased and Unbiased Autocorrelation of AR1
 Rxx_biased = BiasedCrossCorr(x_ar, pmax);
@@ -61,15 +56,17 @@ Rxx_unbiased = UnbiasedCrossCorr(x_ar, pmax);
 
 
 %Plotting AR1 
+subplot(1,2,1);
 stem(x_ar);
 title('AR1 Signal');
 xlabel('Time');
 ylabel('Amplitude');
-figure;
+%figure;
 
 
 %Plotting AR1 Biased and Unbiased AutoCorrelation
 lags = 0:pmax;
+subplot(1,2,2);
 stem(lags, Rxx_biased);
 hold on;
 stem(lags, Rxx_unbiased);
@@ -78,6 +75,11 @@ xlabel('Lag');
 ylabel('Autocorrelation');
 legend('Biased', 'Unbiased');
 figure;
+
+
+
+
+
 
 
 %SIN signal
@@ -90,11 +92,12 @@ t = linspace(0, N/fe, N);
 sinSignal = sin(2 * pi * fa * t + 2 * pi* randn()); 
 
 %Plotting Sin signal
+subplot(1,2,1);
 stem(t,sinSignal);
 title('Sin Signal');
 xlabel('Time');
 ylabel('Amplitude');
-figure;
+%figure;
 
 %Estimate Biased and Unbiased Autocorrelation of Sin
 Rxx_biased = BiasedCrossCorr(sinSignal, pmax);
@@ -102,6 +105,7 @@ Rxx_unbiased = UnbiasedCrossCorr(sinSignal, pmax);
 
 %Plotting Sin Biased and Unbiased AutoCorrelation
 lags = 0:pmax;
+subplot(1,2,2);
 stem(lags, Rxx_biased);
 hold on;
 stem(lags, Rxx_unbiased);
@@ -111,17 +115,94 @@ ylabel('Autocorrelation');
 legend('Biased', 'Unbiased');
 figure;
 
-%Load files
-[fileName,pathFile] = uigetfile;
-fileIn = fullfile(pathFile,fileName);
-[audioIn,faudioIn] = audioread(fileIn);
-%x1 = size(audioIn);
-%x1 = zeros(2,size(audioIn));
-plot(audioIn)
+
+
+
+% %Load files
+% [fileName,pathFile] = uigetfile;
+% fileIn = fullfile(pathFile,fileName);
+% [audioIn,faudioIn] = audioread(fileIn);
+% %x1 = size(audioIn);
+% %x1 = zeros(2,size(audioIn));
+% plot(audioIn)
+% title('Audio Signal Loaded');
+% xlabel('Time');
+% ylabel('Amplitude');
+% %c = max(audioIn,0)
+
+% P = [ 0 0 0 0 0 1 0 0 8 ]
+%d = [ 0 4 0 0 0 3 0 0 -5 ]
+% %max(d)
+% [M,I] = max(d,[],"all")
+
+
+
+%2nd Sesion
+
+%SIN signal 
+% fa2 = 1000*(sqrt(2))/(8);%100; %Hz 
+% sinSignal2 = 10*sin(2 * pi * fa2 * t + 2 * pi* randn()); 
+% 
+% 
+% Rxx_biased = BiasedCrossCorr(sinSignal, pmax);
+% Rxx_biased2 = BiasedCrossCorr(sinSignal2, pmax);
 
 
 
 
 
+% [numRows, numCols] = size(Rxx_biased);
+% disp(['Rxx_biased is a ', num2str(numRows), 'x', num2str(numCols), ' matrix.']);
+% psdEstimator(Rxx_biased);
+%{
+Nfft = 2*length(sinSignal);
+PSD = fft(Rxx_biased,Nfft-1);
+plot(abs(PSD),"LineWidth",3)
+title('Magnitude of fft Spectrum');
+xlabel('f [Hz]');
+ylabel('| fft(x) |');
+hold on;
+Nfft = 2*length(sinSignal2);
+PSD = fft(Rxx_biased2,Nfft-1);
+plot(abs(PSD),"LineWidth",3)
+figure;
+%}
+% sinT =  sinSignal2;
+% Rxx_biased = BiasedCrossCorr(sinT, pmax);
+% Nfft = 2*length(sinT);
+% PSD = fft(Rxx_biased,Nfft-1);
+% plot(abs(PSD),"LineWidth",3)
+% title('Magnitude of fft Spectrum');
+% xlabel('f [Hz]');
+% ylabel('| fft(x) |');
+% hold on;
+% 
+% %final part
+% e = UnbiasedCrossCorr(sinT, pmax);
+% finalS = 2*real((PSD)) - e(1);
+% plot(abs(finalS),"LineWidth",3)
+% hold on;
+
+%theorethical magnitude a^2/4
+% valT = ((abs(sinT)).^2)/4;
+% plot(valT)
+
+
+% Function that uses different sections of the signal to compute the 
+% results and takes the average to increase precision 
+% function [PSD,nu] = psdEstimatorAverage(X, Nfft, k) 
+%     NSection = N/k; 
+%     PSDSections = zeros((k, Nfft)); 
+%     nuSections = zeros((k, Nfft)); 
+%     for i = 0:k - 1 
+%         start = i*Nsection; 
+%         ending = (i+1)*NSection; 
+%         section = X[start:ending]; 
+%         NfftSection = 2*NSection; 
+%         psdEstimator(section, NfftSection, i); 
+%     end 
+%     PSD = mean(PSDSections); 
+%     nu = mean(nuSections); 
+% end 
 
 
