@@ -10,8 +10,8 @@ pmax = 200;
 variance = 0.5;
 
 %Variable to generate AR1 process/signal
-a = 0.8;
-sigma2 = 2;
+a = 0.7;
+sigma2 = 0.3;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -135,12 +135,12 @@ sigma2 = 2;
 %Second Session
 
 %Generate Sin signal
-sinSignal = genSin(2,100,N);
-
-
-Rxx_biased = BiasedCrossCorr(sinSignal, pmax);
-
-psdEstimator(Rxx_biased);
+% sinSignal = genSin(2,100,N);
+% 
+% 
+% Rxx_biased = BiasedCrossCorr(sinSignal, pmax);
+% 
+% psdEstimator(Rxx_biased);
 
 
 % Rxx_biased2 = BiasedCrossCorr(sinSignal2, pmax);
@@ -209,5 +209,22 @@ figure;
 %     PSD = mean(PSDSections); 
 %     nu = mean(nuSections); 
 % end 
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Third Session
+
+%Generate AR Process
+x_ar = arProcess(a,sigma2,N);
+
+%Calculation of estimated AutoCorrelation
+Rxx_ar = BiasedCrossCorr(x_ar,pmax);
+
+YuleWalkerSolver(Rxx_ar)
+
 
 
