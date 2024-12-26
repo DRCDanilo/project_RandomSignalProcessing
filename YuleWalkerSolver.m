@@ -1,42 +1,18 @@
 %Function to solve 
-function [a,v] = YuleWalkerSolver(Cx)
-
-% 
-% k = length(Cx) - 1;
-% 
-% 
-% %Px vector
-% px = Cx';
-% 
-% %Inv Toep Matrix
-% aoutput = toeplitz(Cx)\px;
-% 
-% v = Cx(1,1) - px .* aoutput
+function [aoutput,v3] = YuleWalkerSolver(Cx)
 
 
-if ~exist('k') 
-
-    k = length(Cx)-1; 
-
-end 
-
-  
-
-Cx = Cx(1:k) 
-
-p_x = Cx(1:end)  
-
-  
-%p_x = Cx.' // no estoy seguro de esta línea, tal vez hay que borrarla 
-
-  
-gamma = toeplitz(Cx(1:end-1)) 
+k = length(Cx) - 1;
 
 
-a = gamma \ p_x 
+%Px vector
+px = Cx(2:k+1)';
 
-p_xH = px' 
+%Toep Matrix
+a3 = toeplitz(Cx(1:k));
 
-v = Cx(0) - p_xH * a 
+%Aopt coef
+aoutput = a3 \ px;
 
+v3 = Cx(1) - aoutput'*px
 
