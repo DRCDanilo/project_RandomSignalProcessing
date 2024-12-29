@@ -1,9 +1,11 @@
-%Unbiased Autocorrelation Estimator
+%Unbiased Estimator of the Autocorrelation
 
-function [Rxx_unbiased] = UnbiasedCrossCorr(X, pmax)
+function [Cx,p] = UnbiasedCrossCorr(X, pmax)
     N = length(X);
-    Rxx_unbiased = zeros(1, pmax+1);
+    Cx = zeros(1, pmax+1);
+    p = (0 : pmax)';
     for k = 0:pmax
-        Rxx_unbiased(k+1) = (1/(N-k)) * sum(X(1:N-k) .* X(k+1:N));
+        shift = p(k+1);
+        Cx(k+1) = (1/(N-k)) * sum(X(1:N-k) .* X(k+1:N));
     end
 end

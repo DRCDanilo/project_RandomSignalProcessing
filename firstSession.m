@@ -6,35 +6,26 @@ N = 200;
 % Maximum lag to compute
 pmax = 150;  
 
-%Variance to generate Noise signal
-variance = 0.5;
+%Generate Sin signal with random phase
+sinSignal = genSin(3.5,100,N);
 
-%Generate White Noise signal
-wnoise = wNoise(variance,N);
+%Biased Estimator of the Autocorrelation Sin signal
+[Rxx_biased,p] = BiasedCrossCorr(sinSignal, pmax);
 
-%Estimate Biased and Unbiased Autocorrelation of White Noise signal
-Rxx_biased = BiasedCrossCorr(wnoise, pmax);
-
-V = var(wnoise)
-
-
-
-%Plotting Noise signal
+%Plotting Sin signal
 subplot(1,2,1);
-stem(wnoise);
-title('White Noise');
+stem(sinSignal);
+title('Sin Wave Signal with Random Phase');
 xlabel('Time');
 ylabel('Amplitude');
 %figure;
 
-
-%Plotting Noise Biased AutoCorrelation
-lags = 0:pmax;
+%Plotting Biased Estimator Autocorrelation Sin
 subplot(1,2,2);
-stem(lags, Rxx_biased);
+stem(p, Rxx_biased);
 hold on;
 %stem(lags, Rxx_unbiased);
-title('Autocorrelation of White Noise');
+title('Autocorrelation of Sin Signal');
 xlabel('Lag');
 ylabel('Autocorrelation');
 legend('Biased Estimator', 'Unbiased');

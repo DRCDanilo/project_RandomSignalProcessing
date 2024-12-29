@@ -8,19 +8,21 @@ pmax = 200;
 
 %Variance to generate Noise signal
 variance = 0.5;
-
 %Variable to generate AR1 process/signal
 a = 1;
 sigma2 = 0.6;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %First Session
 
-%Generate White Noise signal
+%Generate White Noise
 wnoise = wNoise(variance,N);
+%Generate AR1 process
+x_ar = arProcess(a,sigma2,N);
+%Generate Sin signal
+sinSignal = genSin(3.5,100,N);
 
-%Estimate Biased and Unbiased Autocorrelation of White Noise signal
+%Estimate Biased and Unbiased Autocorrelation of White Noise
 Rxx_biased = BiasedCrossCorr(wnoise, pmax);
 Rxx_unbiased = UnbiasedCrossCorr(wnoise, pmax);
 
@@ -42,19 +44,18 @@ lags = 0:pmax;
 subplot(1,2,2);
 stem(lags, Rxx_biased);
 hold on;
-stem(lags, Rxx_unbiased);
+stem(lags, Rxx_unbiased,'*');
 title('Autocorrelation of White Noise');
 xlabel('Lag');
 ylabel('Autocorrelation');
-legend('Biased', 'Unbiased');
+legend('Biased Estimator', 'Unbiased Estimator');
 figure;
 
 
 
 
 
-%Generate AR1 process/signal
-x_ar = arProcess(a,sigma2,N);
+
 
 
 %%Estimate Biased and Unbiased Autocorrelation of AR1
@@ -65,7 +66,7 @@ Rxx_unbiased = UnbiasedCrossCorr(x_ar, pmax);
 %Plotting AR1 
 subplot(1,2,1);
 stem(x_ar);
-title('AR1 Signal');
+title('AR1 Process');
 xlabel('Time');
 ylabel('Amplitude');
 %figure;
@@ -76,22 +77,21 @@ lags = 0:pmax;
 subplot(1,2,2);
 stem(lags, Rxx_biased);
 hold on;
-stem(lags, Rxx_unbiased);
-title('Autocorrelation of AR');
+stem(lags, Rxx_unbiased,'*');
+title('Autocorrelation of AR1 Process');
 xlabel('Lag');
 ylabel('Autocorrelation');
-legend('Biased', 'Unbiased');
+legend('Biased Estimator', 'Unbiased Estimator');
 figure;
 
 
-%Generate Sin signal
-sinSignal = genSin(3.5,100,N);
+
 
 
 %Plotting Sin signal
 subplot(1,2,1);
 stem(sinSignal);
-title('Sin Signal');
+title('Sin Signal with Random Phase');
 xlabel('Time');
 ylabel('Amplitude');
 %figure;
@@ -105,12 +105,12 @@ lags = 0:pmax;
 subplot(1,2,2);
 stem(lags, Rxx_biased);
 hold on;
-stem(lags, Rxx_unbiased);
+stem(lags, Rxx_unbiased,'*');
 title('Autocorrelation of Sin Signal');
 xlabel('Lag');
 ylabel('Autocorrelation');
-legend('Biased', 'Unbiased');
-figure;
+legend('Biased Estimator', 'Unbiased Estimator');
+%figure;
 
 
 
