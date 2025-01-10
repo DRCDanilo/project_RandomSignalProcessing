@@ -1,18 +1,19 @@
-%Function to solve 
-function [aoutput,v3] = YuleWalkerSolver(Cx)
+%Function to solve Yule-Wlaker equations
+function [a,v] = YuleWalkerSolver(Cx)
 
+%Definition of the order.
+%SIN COMENTAR
+K = length(Cx) - 1;
 
-k = length(Cx) - 1;
+%Px vector. Autocorrelation vector
+px = Cx(2:K)';
 
-
-%Px vector
-px = Cx(2:k+1)';
-
-%Toep Matrix
-a3 = toeplitz(Cx(1:k));
+%Covariance Matrix
+CovMatrix = toeplitz(Cx(1:K-1));
 
 %Aopt coef
-aoutput = a3 \ px;
+a = CovMatrix \ px;
+%Predictor error variance
+v = Cx(1) - px' * inv(CovMatrix) * px;
 
-v3 = Cx(1) - aoutput'*px
-
+end

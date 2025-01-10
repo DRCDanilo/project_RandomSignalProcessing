@@ -1,116 +1,116 @@
 close ALL;
 clear;
 
-% Samples
-N = 200;
-% Maximum lag to compute
-pmax = 200;  
-
-%Variance to generate Noise signal
-variance = 0.5;
-%Variable to generate AR1 process/signal
-a = 1;
-sigma2 = 0.6;
+% % Samples
+% N = 200;
+% % Maximum lag to compute
+% pmax = 100;  
+% 
+% %Variance to generate Noise signal
+% variance = 0.5;
+% %Variable to generate AR1 process/signal
+% a = 1;
+% sigma2 = 0.6;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %First Session
 
-%Generate White Noise
-wnoise = wNoise(variance,N);
-%Generate AR1 process
-x_ar = arProcess(a,sigma2,N);
-%Generate Sin signal
-sinSignal = genSin(3.5,100,N);
-
-%Estimate Biased and Unbiased Autocorrelation of White Noise
-Rxx_biased = BiasedCrossCorr(wnoise, pmax);
-Rxx_unbiased = UnbiasedCrossCorr(wnoise, pmax);
-
-V = var(wnoise)
-
-
-
-%Plotting Noise signal
-subplot(1,2,1);
-stem(wnoise,"LineWidth",1);
-title('White Noise');
-xlabel('Time');
-ylabel('Amplitude');
-%figure;
-
-
-%Plotting Noise Biased and Unbiased AutoCorrelation
-lags = 0:pmax;
-subplot(1,2,2);
-stem(lags, Rxx_biased,"LineWidth",0.85);
-hold on;
-stem(lags, Rxx_unbiased,'*',"LineWidth",0.75);
-title('Autocorrelation of White Noise');
-xlabel('Lag');
-ylabel('Autocorrelation');
-legend('Biased Estimator', 'Unbiased Estimator');
-figure;
-
-
-
-
-
-
-
-
-%%Estimate Biased and Unbiased Autocorrelation of AR1
-Rxx_biased = BiasedCrossCorr(x_ar, pmax);
-Rxx_unbiased = UnbiasedCrossCorr(x_ar, pmax);
-
-
-%Plotting AR1 
-subplot(1,2,1);
-stem(x_ar,"LineWidth",1);
-title('AR1 Process');
-xlabel('Time');
-ylabel('Amplitude');
-%figure;
-
-
-%Plotting AR1 Biased and Unbiased AutoCorrelation
-lags = 0:pmax;
-subplot(1,2,2);
-stem(lags, Rxx_biased,"LineWidth",0.85);
-hold on;
-stem(lags, Rxx_unbiased,'*',"LineWidth",0.75);
-title('Autocorrelation of AR1 Process');
-xlabel('Lag');
-ylabel('Autocorrelation');
-legend('Biased Estimator', 'Unbiased Estimator');
-figure;
-
-
-
-
-
-%Plotting Sin signal
-subplot(1,2,1);
-stem(sinSignal,"LineWidth",1);
-title('Sin Signal with Random Phase');
-xlabel('Time');
-ylabel('Amplitude');
-%figure;
-
-%Estimate Biased and Unbiased Autocorrelation of Sin
-Rxx_biased = BiasedCrossCorr(sinSignal, pmax);
-Rxx_unbiased = UnbiasedCrossCorr(sinSignal, pmax);
-
-%Plotting Sin Biased and Unbiased AutoCorrelation
-lags = 0:pmax;
-subplot(1,2,2);
-stem(lags, Rxx_biased,"LineWidth",0.85);
-hold on;
-stem(lags, Rxx_unbiased,'*',"LineWidth",0.75);
-title('Autocorrelation of Sin Signal');
-xlabel('Lag');
-ylabel('Autocorrelation');
-legend('Biased Estimator', 'Unbiased Estimator');
-%figure;
+% %Generate White Noise
+% wnoise = wNoise(variance,N);
+% %Generate AR1 process
+% x_ar = arProcess(a,sigma2,N);
+% %Generate Sin signal
+% sinSignal = genSin(3.5,100,N);
+% 
+% %Estimate Biased and Unbiased Autocorrelation of White Noise
+% Rxx_biased = BiasedCrossCorr(wnoise, pmax);
+% Rxx_unbiased = UnbiasedCrossCorr(wnoise, pmax);
+% 
+% V = var(wnoise)
+% 
+% 
+% 
+% %Plotting Noise signal
+% subplot(1,2,1);
+% stem(wnoise,"LineWidth",1);
+% title('White Noise');
+% xlabel('Time');
+% ylabel('Amplitude');
+% %figure;
+% 
+% 
+% %Plotting Noise Biased and Unbiased AutoCorrelation
+% lags = 0:pmax;
+% subplot(1,2,2);
+% stem(lags, Rxx_biased,"LineWidth",0.85);
+% hold on;
+% stem(lags, Rxx_unbiased,'*',"LineWidth",0.75);
+% title('Autocorrelation of White Noise');
+% xlabel('Lag');
+% ylabel('Autocorrelation');
+% legend('Biased Estimator', 'Unbiased Estimator');
+% figure;
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% %%Estimate Biased and Unbiased Autocorrelation of AR1
+% Rxx_biased = BiasedCrossCorr(x_ar, pmax);
+% Rxx_unbiased = UnbiasedCrossCorr(x_ar, pmax);
+% 
+% 
+% %Plotting AR1 
+% subplot(1,2,1);
+% stem(x_ar,"LineWidth",1);
+% title('AR1 Process');
+% xlabel('Time');
+% ylabel('Amplitude');
+% %figure;
+% 
+% 
+% %Plotting AR1 Biased and Unbiased AutoCorrelation
+% lags = 0:pmax;
+% subplot(1,2,2);
+% stem(lags, Rxx_biased,"LineWidth",0.85);
+% hold on;
+% stem(lags, Rxx_unbiased,'*',"LineWidth",0.75);
+% title('Autocorrelation of AR1 Process');
+% xlabel('Lag');
+% ylabel('Autocorrelation');
+% legend('Biased Estimator', 'Unbiased Estimator');
+% figure;
+% 
+% 
+% 
+% 
+% 
+% %Plotting Sin signal
+% subplot(1,2,1);
+% stem(sinSignal,"LineWidth",1);
+% title('Sin Signal with Random Phase');
+% xlabel('Time');
+% ylabel('Amplitude');
+% %figure;
+% 
+% %Estimate Biased and Unbiased Autocorrelation of Sin
+% Rxx_biased = BiasedCrossCorr(sinSignal, pmax);
+% Rxx_unbiased = UnbiasedCrossCorr(sinSignal, pmax);
+% 
+% %Plotting Sin Biased and Unbiased AutoCorrelation
+% lags = 0:pmax;
+% subplot(1,2,2);
+% stem(lags, Rxx_biased,"LineWidth",0.85);
+% hold on;
+% stem(lags, Rxx_unbiased,'*',"LineWidth",0.75);
+% title('Autocorrelation of Sin Signal');
+% xlabel('Lag');
+% ylabel('Autocorrelation');
+% legend('Biased Estimator', 'Unbiased Estimator');
+% %figure;
 
 
 
@@ -219,9 +219,9 @@ figure;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Third Session
-
-%Generate AR Process
+% %Third Session
+% 
+% %Generate AR Process
 % x_ar = arProcess(a,sigma2,N);
 % 
 % %Calculation of estimated AutoCorrelation
@@ -256,11 +256,11 @@ figure;
 % ylabel('Autocorrelation');
 % %legend('Biased Autocorrelation Estimator');
 % %figure;
-
-
-
-
-
+% 
+% 
+% 
+% 
+% 
 % gamma_WhiteNoise = zeros(1, N); 
 % 
 % gamma_AR1 = zeros(1, N); 
@@ -394,3 +394,66 @@ figure;
 % 
 % 
 % isVoiced(audioIn)
+
+
+
+% Samples
+N = 800;
+% Maximum lag to compute
+pmax = 200;  
+
+%Variance to generate Noise signal
+variance = 0.5;
+%Variable to generate AR1 process/signal
+a = 1;
+sigma2 = 0.6;
+
+
+%Generate AR Process
+x_ar = arProcess(a,sigma2,N);
+%Generate Sin signal
+sinSignal = genSin(3.5,100,N);
+
+signal = sinSignal;
+
+%Calculation of estimated AutoCorrelation
+[Cx,p] = BiasedCrossCorr(signal,pmax);
+
+[a,v] = YuleWalkerSolver(Cx)
+
+
+b = [1, -a']; % [1, -a1, -a2, ..., -aM]
+u = 1; % The denominator is simply 1, which means no feedback
+
+e = filter(b, u, signal);
+
+new_x = filter(u, b, e);
+
+plot(signal); hold on; plot(e); plot(new_x,'*'); hold off;
+legend("Input", "Error","New Signal");
+
+
+
+% 
+% 
+% %Plotting signal
+% subplot(1,2,1);
+% stem(x_ar);
+% title('AR Process');
+% xlabel('Time');
+% ylabel('Amplitude');
+% %figure;
+% 
+% 
+% %Plotting Noise Biased and Unbiased AutoCorrelation
+% 
+% subplot(1,2,2);
+% stem(p, Cx);
+% hold on;
+% plot(x_ar)
+% title('Autocorrelation of AR Process');
+% xlabel('Lag');
+% ylabel('Autocorrelation');
+% %legend('Biased Autocorrelation Estimator');
+
+

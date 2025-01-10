@@ -1,7 +1,7 @@
 %Function to generate a Sin signal with a random phase
 function [sinSignal] = genSin(A,freq,N)
 
-fe = 10000;
+fe = 5000;
  
 t = linspace(0, N/fe, N); 
 
